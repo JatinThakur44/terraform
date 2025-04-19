@@ -3,27 +3,34 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      terraform: 0.14 # Adjust the version as necessary
+      terraform: 1.6
     commands:
-      - echo "Installing terraform"
-      - cd terraform-dir # Change to the directory containing your Terraform code
+      - echo Installing Terraform...
+      - apt-get update && apt-get install -y unzip curl
+      - curl -O https://releases.hashicorp.com/terraform/1.6.0/terraform_1.6.0_linux_amd64.zip
+      - unzip terraform_1.6.0_linux_amd64.zip
+      - mv terraform /usr/local/bin/
+      - terraform -version
 
   pre_build:
     commands:
-      - echo "Initializing Terraform"
+      - echo Initializing Terraform...
       - terraform init
 
   build:
     commands:
-      - echo "Planning Terraform deployment"
-      - terraform plan
+      - echo Planning Terraform deployment...
+      - terraform plan -out=tfplan
+      - echo Applying Terraform changes...
+      - terraform apply -auto-approve tfplan
 
   post_build:
     commands:
-      - echo "Applying Terraform deployment"
-      - terraform apply -auto-approve
+      - echo Uploading plan file to S3...
+      - aws s3 cp tfplan s3://terraform126/tfplan-$(date +%Y%m%d%H%M%S)
 
 artifacts:
   files:
-    - '**/*'
+    - tfplan
   discard-paths: yes
+  base-directory: .
