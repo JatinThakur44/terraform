@@ -28,6 +28,8 @@ phases:
     commands:
       - echo Uploading plan file to S3...
       - aws s3 cp tfplan s3://terraform126/tfplan-$(date +%Y%m%d%H%M%S)
+      - echo Running Terraform Destroy...
+      - terraform destroy -auto-approve
 
 artifacts:
   files:
