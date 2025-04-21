@@ -3,8 +3,8 @@ terraform {
     bucket = "mybucket-statemanagement1"
     key    = "network/demo.tfstate"
     region = "us-east-1"
-    # dynamodb_table = "statelocktable"
-    use_lockfile = true
+    dynamodb_table = "statelocktable"
+    #use_lockfile = true
   }
 }
 
