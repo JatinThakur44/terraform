@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
-    bucket = "mybucket-statemanagement1"
-    key    = "network/demo.tfstate"
+    bucket = "terraform126"
+    key    = "terraform/demo.tfstate"
     region = "us-east-1"
     dynamodb_table = "statelocktable"
     #use_lockfile = true
