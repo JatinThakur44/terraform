@@ -27,9 +27,7 @@ variable "instance_type" {
   type        = string
   default     = "t2.micro"
 }
-variable "accesskey"{
-default = 
-}
+
 
 # variable "ami" {
 #   description = "AMI ID for EC2 Instance"
